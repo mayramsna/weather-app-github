@@ -63,6 +63,12 @@ hr {
   margin-left: 50px;
 }
 
+.wind-speed-line {
+  font-weight: 200;
+  font-size: 19px;
+  margin-left: 50px;
+}
+
 .city-input,
 .btn {
   text-align: left;

@@ -64,6 +64,7 @@ function parseWeatherData(weatherResponse) {
     lowTemp: 0,
     description: "",
     cityName: "",
+    windSpeed: "",
   };
 
   weatherObj["cityName"] = weatherResponse["data"]["name"];
@@ -76,6 +77,8 @@ function parseWeatherData(weatherResponse) {
   weatherObj["description"] =
     weatherResponse["data"]["weather"][0]["description"];
 
+  weatherObj["windSpeed"] = weatherResponse["data"]["wind"]["speed"];
+
   return weatherObj;
 }
 
@@ -87,11 +90,13 @@ function displayCityWeather(weatherData) {
   const currentHigh = document.querySelector("#current-high");
   const currentLow = document.querySelector("#current-low");
   const description = document.querySelector(".temp-description");
+  const windSpeed = document.querySelector(".wind-speed");
 
   cityName.innerHTML = weatherData["cityName"];
   currentHigh.innerHTML = weatherData["highTemp"] + "°";
   currentLow.innerHTML = weatherData["lowTemp"] + "°";
   description.innerHTML = weatherData["description"];
+  windSpeed.innerHTML = weatherData["windSpeed"];
 }
 
 document
