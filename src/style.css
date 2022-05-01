@@ -16,6 +16,7 @@ form {
   top: 10%;
   left: 20%;
   max-width: 913px;
+  height: 680px;
 }
 
 h1,
@@ -57,16 +58,31 @@ hr {
   margin-left: 15px;
 }
 
+#today-icon {
+  margin-left: 50px;
+}
+
+.current-info {
+  margin-left: 200px;
+  margin-top: 30px;
+  text-align: right;
+  margin-right: 50px;
+}
+
+.current-info > span {
+  display: block;
+}
+
 .temp-description {
   font-weight: 300;
   font-size: 25px;
-  margin-left: 50px;
 }
 
 .wind-speed-line {
   font-weight: 200;
   font-size: 19px;
-  margin-left: 50px;
+  text-align: right;
+  margin-left: 44px;
 }
 
 .city-input,
@@ -158,6 +174,6 @@ hr {
 }
 
 .open-code {
-  margin-left: 290px;
-  margin-top: 635px;
+  margin-left: 30px;
+  margin-top: 2px;
 }

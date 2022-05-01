@@ -59,12 +59,14 @@ function fetchCityWeather(cityName) {
  * parsed weather data to be display on the page
  */
 function parseWeatherData(weatherResponse) {
+  const iconUrl = "http://openweathermap.org/img/wn/:iconId@2x.png";
   const weatherObj = {
     highTemp: 0,
     lowTemp: 0,
     description: "",
     cityName: "",
     windSpeed: "",
+    icon: "",
   };
 
   weatherObj["cityName"] = weatherResponse["data"]["name"];
@@ -76,9 +78,13 @@ function parseWeatherData(weatherResponse) {
   );
   weatherObj["description"] =
     weatherResponse["data"]["weather"][0]["description"];
-
-  weatherObj["windSpeed"] = weatherResponse["data"]["wind"]["speed"];
-
+  weatherObj["windSpeed"] = Math.floor(
+    weatherResponse["data"]["wind"]["speed"]
+  );
+  weatherObj["icon"] = iconUrl.replace(
+    ":iconId",
+    weatherResponse["data"]["weather"][0]["icon"]
+  );
   return weatherObj;
 }
 
@@ -91,12 +97,14 @@ function displayCityWeather(weatherData) {
   const currentLow = document.querySelector("#current-low");
   const description = document.querySelector(".temp-description");
   const windSpeed = document.querySelector(".wind-speed");
+  const currentDayIcon = document.querySelector("#today-icon");
 
   cityName.innerHTML = weatherData["cityName"];
   currentHigh.innerHTML = weatherData["highTemp"] + "°";
   currentLow.innerHTML = weatherData["lowTemp"] + "°";
   description.innerHTML = weatherData["description"];
   windSpeed.innerHTML = weatherData["windSpeed"];
+  currentDayIcon.src = weatherData["icon"];
 }
 
 document
