@@ -1,3 +1,6 @@
+// we need the api key
+const APIKEY = "838c4ccfd4bfa09e347b74f53a234eec";
+
 // testing console log & date
 let now = new Date();
 console.log(now);
@@ -36,6 +39,21 @@ function showCitySearch() {
 
   // Fetches weather data for the searched city, parses data, and displays on screen
   fetchCityWeather(cityName).then(parseWeatherData).then(displayCityWeather);
+
+  fetchForcast(cityName)
+    .then(function (response) {
+      const data = response.data;
+      const forcastList = data.list;
+
+      const dailyWeather = [];
+      for (let i = 0; i < forcastList.length; i++) {
+        if (i % 8 === 0) {
+          dailyWeather.push(forcastList[i]);
+        }
+      }
+      return dailyWeather.map(parseForecast);
+    })
+    .then(updateForecast);
 }
 
 let searchButton = document.querySelector("#searchCityBtn");
@@ -45,12 +63,16 @@ searchButton.addEventListener("click", showCitySearch);
  * Call the openweather API and returns current data for the searched city
  */
 function fetchCityWeather(cityName) {
-  // we need the api key
-  const APIKEY = "838c4ccfd4bfa09e347b74f53a234eec";
   // we need the api url.
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKEY}&&units=imperial`;
 
   // call the api and return fetched data
+  return axios.get(apiUrl);
+}
+
+function fetchForcast(cityName) {
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${APIKEY}&units=imperial`;
+
   return axios.get(apiUrl);
 }
 
@@ -88,6 +110,20 @@ function parseWeatherData(weatherResponse) {
   return weatherObj;
 }
 
+function parseForecast(forecastData) {
+  const iconUrl = "http://openweathermap.org/img/wn/:iconId@2x.png";
+  const weatherObj = {
+    highTemp: 0,
+    lowTemp: 0,
+    icon: "",
+  };
+  weatherObj.highTemp = Math.floor(forecastData.main.temp_max);
+  weatherObj.lowTemp = Math.floor(forecastData.main.temp_min);
+  weatherObj.icon = iconUrl.replace(":iconId", forecastData.weather[0].icon);
+
+  return weatherObj;
+}
+
 /**
  * Takes parsed data for the current weather and displays it on the page
  */
@@ -105,6 +141,18 @@ function displayCityWeather(weatherData) {
   description.innerHTML = weatherData["description"];
   windSpeed.innerHTML = weatherData["windSpeed"];
   currentDayIcon.src = weatherData["icon"];
+}
+
+function updateForecast(forecastData) {
+  const icons = document.querySelectorAll(".temp-icons .forecast-icon img");
+  const highTemp = document.querySelectorAll(".high-temp .temp-number");
+  const lowTemp = document.querySelectorAll(".low-temp .temp-number");
+
+  forecastData.forEach(function (weatherData, index) {
+    highTemp[index].innerHTML = weatherData.highTemp;
+    lowTemp[index].innerHTML = weatherData.lowTemp;
+    icons[index].src = weatherData.icon;
+  });
 }
 
 document
