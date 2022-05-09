@@ -12,11 +12,9 @@ form {
   border: #dfa9a9 solid 5px;
   width: 60vw;
   margin-top: 50px;
-  position: fixed;
-  top: 10%;
+  position: absolute;
   left: 20%;
   max-width: 913px;
-  height: 680px;
 }
 
 h1,
