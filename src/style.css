@@ -63,7 +63,6 @@ hr {
 }
 
 .current-info {
-  margin-left: 200px;
   margin-top: 30px;
   text-align: right;
   margin-right: 50px;
@@ -81,8 +80,6 @@ hr {
 .wind-speed-line {
   font-weight: 200;
   font-size: 19px;
-  text-align: right;
-  margin-left: 44px;
 }
 
 .city-input,
